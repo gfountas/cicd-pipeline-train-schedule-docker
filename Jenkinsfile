@@ -1,40 +1,16 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
-            steps {
-                echo 'Running build automation'
-                sh './gradlew build --no-daemon'
-                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
-            }
-        }
-        stage('Build Docker Image'){
+        stage('Deploy to production'){
           steps {
-            echo 'Building docker image'
-            script {
-              app = docker.build('gfountas/trainapp')
-            }
-          }
-        }
-        stage('Test Docker Image'){
-          steps {
-            echo 'Testing docker image'
-            script {
-              app.inside {
-                sh 'echo $(curl localhost:8080)'
+            input('Deploy to production?')
+            milestone(1)
+            withCredentials([usernamePassword(credentialsId: 'user_username_password',usernameVariable: 'USERNAME',passwordVariable: 'USERPASS')]){
+              script {
+                sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@gfountas3.mylabserver.com \"docker pull gfountas/trainapp:latest\""
               }
             }
           }
-        }
-        stage('Push Docker Image to docker registry'){
-          steps {
-            echo 'Pushing image to docker registry'
-            script {
-              docker.withRegistry('https://registry.hub.docker.com','docker_hub_credentials'){
-                app.push('latest')
-              }
-            }
-          }
-        }
+      }
     }
 }
