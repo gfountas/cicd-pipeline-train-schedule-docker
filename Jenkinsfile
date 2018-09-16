@@ -25,6 +25,16 @@ pipeline {
               }
             }
           }
-      }
+        }
+        stage('Push Docker Image to docker registry'){
+          steps {
+            echo 'Pushing image to docker registry'
+            script {
+              docker.withRegistry('https://registry.hub.docker.com','docker_hub_credentials'){
+                app.push('latest')
+              }
+            }
+          }
+        }
     }
 }
