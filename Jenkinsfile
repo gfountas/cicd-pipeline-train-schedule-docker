@@ -12,6 +12,8 @@ pipeline {
           steps {
             echo 'Building docker image'
             dockerfile {
+              filename 'Dockerfile'
+              dir '.'
               label 'gfountas/trainapp'
             }
           }
