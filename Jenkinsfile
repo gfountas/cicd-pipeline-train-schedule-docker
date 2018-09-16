@@ -8,5 +8,12 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
+        stage('Build Docker Image'){
+          steps {
+            echo 'Building docker image'
+            dockerFile {
+              label 'gfountas/trainapp'
+            }
+        }
     }
 }
