@@ -11,14 +11,18 @@ pipeline {
         stage('Build Docker Image'){
           steps {
             echo 'Building docker image'
-            app = docker.build('gfountas/trainapp')
+            script {
+              app = docker.build('gfountas/trainapp')
+            }
           }
         }
         stage('Test Docker Image'){
           steps {
             echo 'Testing docker image'
-            app.inside {
-              sh 'echo $(curl localhost:8080)'
+            script {
+              app.inside {
+                sh 'echo $(curl localhost:8080)'
+              }
             }
           }
       }
