@@ -18,7 +18,7 @@ pipeline {
           steps {
             echo 'Testing docker image'
             app.inside {
-              echo $(curl localhost:8080)
+              sh 'echo $(curl localhost:8080)'
             }
           }
       }
