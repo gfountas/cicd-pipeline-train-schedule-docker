@@ -14,6 +14,7 @@ pipeline {
             dockerFile {
               label 'gfountas/trainapp'
             }
+          }
         }
     }
 }
