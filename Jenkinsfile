@@ -12,7 +12,9 @@ pipeline {
           steps {
             echo 'Building docker image'
             sh 'docker build -t gfountas/trainapp .'
-            
+            sh 'docker run -d --name trainapp -p 8080:8090 gfountas/trainapp'
+            sh 'curl localhost:8090'
+            sh 'docker rm -f trainapp'
           }
         }
     }
