@@ -11,8 +11,8 @@ pipeline {
         stage('Build Docker Image'){
           steps {
             echo 'Building docker image'
-              sh 'docker build -t gfountas/trainapp .'
-            }
+            sh 'docker build -t gfountas/trainapp .'
+            
           }
         }
     }
